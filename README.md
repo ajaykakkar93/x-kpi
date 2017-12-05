@@ -1,2 +1,4 @@
-# x-kpi
-New Kpi For Qlik Sense
+
+
+<img src="./x-kpi1.gif" alt="3nd Version">
+<hr>
