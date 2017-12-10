@@ -1,10 +1,7 @@
-define(["qlik", "text!./template.html",
-        './extUtils', "text!./style.css", 'ng!$q', 
-    'ng!$http'
-    ],
+define(["qlik", "text!./template.html",'./extUtils', "text!./style.css", 'ng!$q', 'ng!$http'],
     function(qlik, template, extUtils, css, $q, $http) {
 
-        var faUrl = extUtils.getBasePath() + '/extensions/sheet-nav/lib/external/fontawesome/css/font-awesome.min.css';
+        var faUrl = extUtils.getBasePath() + '/extensions/x-kpi/lib/external/fontawesome/css/font-awesome.min.css';
         extUtils.addStyleLinkToHeader(faUrl, 'sheet-nav__fontawesome');
 
 
@@ -111,6 +108,15 @@ define(["qlik", "text!./template.html",
                                 label: "Expression 2 icon",
                                 expression: "optional"
                             },
+							
+							value2iconcolor: {
+                                type: "string",
+                                ref: "value2iconcolor",
+                                label: "Expression 2 icon color",
+                                expression: "optional",
+								defaultValue:'green'
+                            },
+							
 						 }
 					},
 					
@@ -131,6 +137,83 @@ define(["qlik", "text!./template.html",
 						 }
 					},
 					
+					
+					visual: {
+                        label: "Container Customization",
+                        items: {
+						
+							
+							visualheight: {
+                                type: "string",
+                                ref: "visualheight",
+                                label: "Height",
+                                expression: "optional",
+								defaultValue:'50px'
+                           },
+						   
+						   visualpadding: {
+                                type: "string",
+                                ref: "visualpadding",
+                                label: "Padding",
+                                expression: "optional",
+								defaultValue:'10px 5px 10px 5px'
+                           },
+						   
+						   visualmarginbottom: {
+                                type: "string",
+                                ref: "visualmarginbottom",
+                                label: "Margin Bottom",
+                                expression: "optional",
+								defaultValue:'10px'
+                           },
+						   
+						   
+						   
+						   visualiconmarginleft: {
+                                type: "string",
+                                ref: "visualiconmarginleft",
+                                label: "Icon Margin Left",
+                                expression: "optional",
+								defaultValue:'0px'
+                           },
+						   
+						   visualiconfontsize: {
+                                type: "string",
+                                ref: "visualiconfontsize",
+                                label: "Icon Size",
+                                expression: "optional",
+								defaultValue:'70px'
+                           },
+						   
+						   visualiconlineheight: {
+                                type: "string",
+                                ref: "visualiconlineheight",
+                                label: "Icon Line Height",
+                                expression: "optional",
+								defaultValue:'90px'
+                           },
+						   
+						    visualnumbright: {
+                                type: "string",
+                                ref: "visualnumbright",
+                                label: "Number Right",
+                                expression: "optional",
+								defaultValue:'10%'
+                           },
+						   
+						   visualnumbfontsize: {
+                                type: "string",
+                                ref: "visualnumbfontsize",
+                                label: "Number Font Size",
+                                expression: "optional",
+								defaultValue:'50px'
+                           },
+						   
+						   // end
+                        }
+                    },
+					
+					
                     settings: {
                         uses: "settings",
                         items: {
@@ -141,17 +224,8 @@ define(["qlik", "text!./template.html",
                                     	ref: "linkforiconpack",
                                     	label: "Link For Icon Pack",
                                     	expression: "optional"
-                           },
+                           }
 							
-                            		/*
-									navtosheet: {
-                                    	type: "string",
-                                    	ref: "gotosheet",
-                                    	label: "Go To Sheet",
-                                    	expression: "optional"
-                                    },
-									*/
-
                             //end
 
 
@@ -166,8 +240,23 @@ define(["qlik", "text!./template.html",
                 exportData: false
             },
             paint: function(element, layout) {
-
-
+				
+				var visualheight='height:'+layout.visualheight+';' ,
+						visualpadding='padding:'+layout.visualpadding+';' ,
+						visualmarginbottom='margin-bottom:'+layout.visualmarginbottom+';' ,
+						visualiconmarginleft= 'margin-left:'+layout.visualiconmarginleft+';'  ,
+						visualiconfontsize= 'font-size:'+layout.visualiconfontsize+';'  ,
+						visualiconlineheight= 'line-height:'+layout.visualiconlineheight+';'  ,
+						visualnumbright= 'right:'+layout.visualnumbright+';'  ,
+						visualnumbfontsize= 'font-size:'+layout.visualnumbfontsize+';' ;
+						
+						var visualstyle='style="'+ visualheight + visualpadding + visualmarginbottom   +'"';
+						
+						var iconstyle='style="'+ visualiconmarginleft + visualiconfontsize + visualiconlineheight +'"';
+						
+						var detailsstyle='style="'+ visualnumbright +'"';
+						var numbstyle='style="'+  visualnumbfontsize +'"';
+				
 				if(layout.linkforiconpack == ''){
 				
 				}else{
@@ -181,41 +270,36 @@ define(["qlik", "text!./template.html",
 					}
 				}
 				
-				
                 var html = '';
 
-                html += '<div>';
                 html += '<a class="dashboard-stat dashboard-stat-v2 bg-color" style="background-color: ' + layout.bgcolor + ';" ';
                 html += 'href="javascript:;" id="gotosheet_' + layout.gotosheet + '">';
                 html += '<div><p class="MainCardHdr">' + layout.title + '</p></div>';
-                html += '  <div class="visual">';
+                html += '  <div class="visual" '+visualstyle+'>';
                 
 				if(layout.ashtml1){
 					html += layout.iconname;
 				}else{
-					html += '      <i class="' + layout.iconname + '"></i>';
+					html += '      <i class="' + layout.iconname + '" '+ iconstyle +'></i>';
                 }
 				
 				html += '  </div>';
-                html += '   <div class="details">';
+                html += '   <div class="details" '+detailsstyle+'>';
                 html += '      <div class="stat-number">';
-                html += '          <span  class="stat-value1">' + layout.value1 + '</span>';
+                html += '          <span  class="stat-value1" '+ numbstyle +'>' + layout.value1 + '</span>';
                 html += '      </div>';
                 html += '      <div class="desc"> ' + layout.value2txt;
 				
 				if(layout.ashtml2){
 					html += layout.value2icon;
 				}else{
-					html +='	<i class="' + layout.value2icon + ' custIcn" ></i>';
+					html +='	<i class="' + layout.value2icon + ' custIcn" style="color:'+layout.value2iconcolor+'; "></i>';
                 }
 				
 				html += '  </div></div>';
                 html += ' </a>';
-                html += ' </div>';
-
 
                 element.html(html);
-
 
 				var result = qlik.navigation.getMode();
 				if(result == 'analysis'){
@@ -226,16 +310,13 @@ define(["qlik", "text!./template.html",
                 	});
 				 };
 				
-
-                $('.qv-object-x-kip .qv-object-header.thin').hide();
+                $('.qv-object-x-kpi .qv-object-header.thin').hide();
 
                 /*
                 $( '#gotosheet_'+layout.gotosheet ).dblclick(function() {
                   	
                 });
                 */
-
-
 
                 //qlik.navigation.gotoSheet(layout.gotosheet);
                 //return qlik.Promise.resolve();
