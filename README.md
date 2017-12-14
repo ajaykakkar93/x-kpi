@@ -1,5 +1,4 @@
 
-<h3>Bugs Solved</h3>
 <h3>UI Improvements</h3>
 <ol>
   <li>Title, Icon, Container height adjustments</li>
