@@ -1,3 +1,10 @@
+
+<h3>Bugs Solved</h3>
+<h3>UI Improvements</h3>
+<ol>
+  <li>Title, Icon, Container height adjustments</li>
+</ol>
+
 <h2>Custom KPI For Qlik Sense</h2>
 <h3>Features : </h3>
 <ol>
